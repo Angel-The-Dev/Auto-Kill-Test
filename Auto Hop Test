@@ -1,5 +1,24 @@
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/lolll", true))()
 
+    local v213 = Vector3.new(2048, 0, 2048)
+    local v214 = 20
+    local vu215 = vu188
+    local vu216 = vu190
+    local v217 = 20
+    local v218 = 0
+    for v219 = - v214, v214 do
+        local v220 = v219
+        for v221 = - v217, v217 do
+            local v222 = Instance.new("Part")
+            v222.Parent = game.Workspace
+            v222.Anchored = true
+            v222.Position = Vector3.new(v220 * (v213.X + v218), - 9, v221 * (v213.Z + v218))
+            v222.Size = v213
+            v222.Transparency = 1
+        end
+    end
+
+
 local Players = game:GetService("Players")
 local localPlayer = Players.LocalPlayer
 local HttpService = game:GetService("HttpService")
@@ -27,116 +46,12 @@ game.DescendantAdded:Connect(function(descendant)
  end
  end)
 
- local Main = window:AddTab("Main")
+ local Client = window:AddTab("Client")
 
- local walkSpeedValue = 16
-Main:AddTextBox("WalkSpeed", function(text)
+local walkSpeedValue = 16
+Client:AddTextBox("WalkSpeed", function(text)
     local speed = tonumber(text)
     if speed and speed >= 1 and speed <= 500 then
         walkSpeedValue = speed
-    end
-end)
-
-Main:AddButton("Apply", function()
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = walkSpeedValue
-    task.wait(0.1)
-end)
-
-Main:AddSwitch("Hide All Frames", function(bool)
-    local rSto = game:GetService("ReplicatedStorage")
-    for _, obj in pairs(rSto:GetChildren()) do
-        if obj.Name:match("Frame$") then
-            obj.Visible = not bool
-        end
-    end
-end)
-
-Main:AddSwitch("Disable Trades", function(State)
-    if State then
-        game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("disableTrading")
-    else
-        game:GetService("ReplicatedStorage").rEvents.tradingEvent:FireServer("enableTrading")
-    end
-end)
-
-Main:AddSwitch("Hide Pets", function(State)
-    if State then
-        game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("hidePets")
-    else
-        game:GetService("ReplicatedStorage").rEvents.showPetsEvent:FireServer("showPets")
-    end
-end)
-
-    Main:AddButton("Delete NameGUIs", function()
-        local v495 = game:GetService("Players")
-        local v496, v497, v498 = pairs(v495:GetPlayers())
-        while true do
-            local v499
-            v498, v499 = v496(v497, v498)
-            if v498 == nil then
-                break
-            end
-            if v499.Character and v499.Character.Head:FindFirstChild("nameGui") then
-                v499.Character.Head.nameGui:Destroy()
-            end
-        end
-    end)
-
-Main:AddButton("Reset", function()
-    local function resetPlayer()
-        local player = game.Players.LocalPlayer
-        if player.Character then
-            player.Character:BreakJoints()
-        end
-    end
-    
-    resetPlayer()
-end)
-
-local sizeValue = 1 -- Default size (normal)
-Main:AddTextBox("Size", function(text)
-    local size = tonumber(text)
-    if size and size >= 1 and size <= 100 then
-        sizeValue = size
-    end
-end)
-
-local setSize = false
-Main:AddSwitch("Set Size", function(state)
-    setSize = state
-    local char = game.Players.LocalPlayer.Character
-    if char then
-        local humanoid = char:FindFirstChildOfClass("Humanoid")
-        if humanoid then
-            if state then
-                humanoid.BodyDepthScale.Value = sizeValue
-                humanoid.BodyHeightScale.Value = sizeValue
-                humanoid.BodyWidthScale.Value = sizeValue
-                humanoid.HeadScale.Value = sizeValue
-            else
-                humanoid.BodyDepthScale.Value = 1
-                humanoid.BodyHeightScale.Value = 1
-                humanoid.BodyWidthScale.Value = 1
-                humanoid.HeadScale.Value = 1
-            end
-        end
-    end
-end)
-
-local switch = Main:AddSwitch("Lock Client Position", function(Value)
-    if Value then
-        -- Lock Position
-        local currentPos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
-        getgenv().posLock = game:GetService("RunService").Heartbeat:Connect(function()
-            if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = currentPos
-            end
-        end)
-    else
-        -- Unlock Position
-        if getgenv().posLock then
-            getgenv().posLock:Disconnect()
-            getgenv().posLock = nil
-        end
     end
 end)
