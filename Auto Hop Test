@@ -1,0 +1,43 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/lolll", true))()
+
+local switch = KillingTab:AddSwitch("Auto Kill", function(bool)
+    _G.killAll = bool
+    if bool then
+        if not _G.killAllConnection then
+            local lastExecution = 0
+            local executionInterval = 0.225
+            local currentTargetIndex = 1
+            
+            _G.killAllConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                if not _G.killAll then return end
+                
+                if tick() - lastExecution >= executionInterval then
+                    lastExecution = tick()
+                    
+                    local players = game:GetService("Players"):GetPlayers()
+                    local validTargets = {}
+                    
+                    for _, player in ipairs(players) do
+                        if player ~= game.Players.LocalPlayer and not isWhitelisted(player) and isPlayerAlive(player) then
+                            table.insert(validTargets, player)
+                        end
+                    end
+                    
+                    if #validTargets > 0 then
+                        if currentTargetIndex > #validTargets then
+                            currentTargetIndex = 1
+                        end
+                        
+                        killPlayer(validTargets[currentTargetIndex])
+                        currentTargetIndex = currentTargetIndex + 1
+                    end
+                end
+            end)
+        end
+    else
+        if _G.killAllConnection then
+            _G.killAllConnection:Disconnect()
+            _G.killAllConnection = nil
+        end
+    end
+end)
