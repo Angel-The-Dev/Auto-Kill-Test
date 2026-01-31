@@ -1,4 +1,198 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/lolll", true))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/lolll", true))()local switch = KillingTab:AddSwitch("Auto Kill", function(bool)
+   
+       local v213 = Vector3.new(2048, 0, 2048)
+    local v214 = 20
+    local vu215 = vu188
+    local vu216 = vu190
+    local v217 = 20
+    local v218 = 0
+    for v219 = - v214, v214 do
+        local v220 = v219
+        for v221 = - v217, v217 do
+            local v222 = Instance.new("Part")
+            v222.Parent = game.Workspace
+            v222.Anchored = true
+            v222.Position = Vector3.new(v220 * (v213.X + v218), - 9, v221 * (v213.Z + v218))
+            v222.Size = v213
+            v222.Transparency = 1
+        end
+    end
+
+
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualUser = game:GetService("VirtualUser")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local muscleEvent = Player:WaitForChild("muscleEvent")
+local display = Player.DisplayName
+
+local window = library:AddWindow("Made by: XxD3ATHKlNGxX | Welcome "..display, {
+    main_color = Color3.fromRGB(139, 0, 0), -- Color
+    min_size = Vector2.new(550, 620), -- Size of the GUI
+    can_resize = false,
+})
+
+for _, portal in pairs(game:GetDescendants()) do
+    if portal.Name == "RobloxForwardPortals" then
+        portal:Destroy()
+    end
+end
+game.DescendantAdded:Connect(function(descendant)
+    if descendant.Name == "RobloxForwardPortals" then
+        descendant:Destroy()
+ end
+ end)
+   
+   
+local KillingTab = window:AddTab("Killing")
+
+local function checkCharacter()
+    if not game.Players.LocalPlayer.Character then
+        repeat task.wait() until game.Players.LocalPlayer.Character
+    end
+    return game.Players.LocalPlayer.Character
+end
+
+local function gettool()
+    for _, v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if v.Name == "Punch" and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+            game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+        end
+    end
+    game.Players.LocalPlayer.muscleEvent:FireServer("punch", "leftHand")
+    game.Players.LocalPlayer.muscleEvent:FireServer("punch", "rightHand")
+end
+
+local function isPlayerAlive(player)
+    return player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") and
+           player.Character:FindFirstChild("Humanoid") and player.Character.Humanoid.Health > 0
+end
+
+local function killPlayer(target)
+    if not isPlayerAlive(target) then return end
+    local character = checkCharacter()
+    if character and character:FindFirstChild("LeftHand") then
+        pcall(function()
+            firetouchinterest(target.Character.HumanoidRootPart, character.LeftHand, 0)
+            firetouchinterest(target.Character.HumanoidRootPart, character.LeftHand, 1)
+            gettool()
+        end)
+    end
+end
+
+local player = game:GetService("Players").LocalPlayer
+
+local comboActive = false
+local eggLoop, characterAddedConn
+
+local function ensureEggEquipped()
+    if not comboActive or not player.Character then return end
+    
+    local eggsInHand = 0
+    for _, item in ipairs(player.Character:GetChildren()) do
+        if item.Name == "Protein Egg" then
+            eggsInHand += 1
+            if eggsInHand > 1 then
+                item.Parent = player.Backpack
+            end
+        end
+    end
+    
+    if eggsInHand == 0 then
+        local egg = player.Backpack:FindFirstChild("Protein Egg")
+        if egg then
+            egg.Parent = player.Character
+        end
+    end
+end
+
+local comboSwitch = KillingTab:AddSwitch("Kill while dead (needs Protein Egg)", function(bool)
+    comboActive = bool
+    
+    if bool then
+        changeSpeedSizeRemote:InvokeServer("changeSize", 0/0)
+        
+        eggLoop = task.spawn(function()
+            while comboActive do
+                ensureEggEquipped()
+                task.wait(0.2)
+            end
+        end)
+        
+        characterAddedConn = player.CharacterAdded:Connect(function(newChar)
+            task.wait(0.5)
+            ensureEggEquipped()
+        end)
+        
+        ensureEggEquipped()
+        
+    else
+        if eggLoop then task.cancel(eggLoop) end
+        if characterAddedConn then characterAddedConn:Disconnect() end
+    end
+end)
+
+    local vu155 = false
+
+local switch = KillingTab:AddSwitch("Safe Spot For Killing", function(p156)
+       vu155 = p156
+        spawn(function()
+            while vu155 do
+                local v157 = game.Players.LocalPlayer
+                local v158 = (v157.Character or v157.CharacterAdded:Wait()):WaitForChild("HumanoidRootPart", 0.1)
+                if v158 then
+                    v158.CFrame = CFrame.new(- 12510.5, - 1.6537845134735107, 28019.103515625)
+                end
+                wait()
+            end
+        end)
+
+end)
+
+
+KillingTab:AddButton("Size nan", function()
+    local args = {"changeSize", 0/0}
+    game:GetService("ReplicatedStorage"):WaitForChild("rEvents"):WaitForChild("changeSpeedSizeRemote"):InvokeServer(unpack(args))
+end)
+
+_G.whitelistedPlayers = _G.whitelistedPlayers or {}
+_G.blacklistedPlayers = _G.blacklistedPlayers or {}
+
+local function isWhitelisted(player)
+    for _, name in ipairs(_G.whitelistedPlayers) do
+        if name:lower() == player.Name:lower() then
+            return true
+        end
+    end
+    return false
+end
+
+local function isBlacklisted(player)
+    for _, name in ipairs(_G.blacklistedPlayers) do
+        if name:lower() == player.Name:lower() then
+            return true
+        end
+    end
+    return false
+end
+
+local function getPlayerDisplayText(player)
+    return player.DisplayName .. " | " .. player.Name
+end
+
+local whitelistDropdown = KillingTab:AddDropdown("Add to Whitelist", function(selectedText)
+    local playerName = selectedText:match("| (.+)$")
+    if playerName then
+        playerName = playerName:gsub("^%s*(.-)%s*$", "%1") 
+        for _, name in ipairs(_G.whitelistedPlayers) do
+            if name:lower() == playerName:lower() then return end
+        end
+        table.insert(_G.whitelistedPlayers, playerName)
+    end
+end)
 
 local switch = KillingTab:AddSwitch("Auto Kill", function(bool)
     _G.killAll = bool
