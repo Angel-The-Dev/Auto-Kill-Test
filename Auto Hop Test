@@ -26,37 +26,346 @@ v2:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
 v2:AddButton("Copy Discord Invite", function()
     setclipboard("https://discord.gg/7VMvFvdGSF")
 end)
-local antiAFKConnection
-local function setupAntiAFK()
-    if antiAFKConnection then
-        antiAFKConnection:Disconnect()
-    end
 
-    antiAFKConnection = Player.Idled:Connect(function()
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton2(Vector2.new())
-    end)
-end
-setupAntiAFK()
-
-local function removePortals()
-    for _, portal in pairs(game:GetDescendants()) do
-        if portal.Name == "RobloxForwardPortals" then
-            portal:Destroy()
-        end
-    end
-    if _G.AdRemovalConnection then
-        _G.AdRemovalConnection:Disconnect()
-    end
-    
-    _G.AdRemovalConnection = game.DescendantAdded:Connect(function(descendant)
-        if descendant.Name == "RobloxForwardPortals" then
-            descendant:Destroy()
-        end
-    end)
-end
-removePortals()
-
-local v2 = v1:AddTab("INFO1")
 infoTab1 = MainWindow:AddTab(" STATS ")
-local v2 = window:AddTab("Main")
+infoTab1:AddLabel("\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144")
+infoTab1:AddLabel("\227\128\142 STATS \227\128\143   ").TextSize = 20
+local TimeSpentLabel = infoTab1:AddLabel("Time Spent in Server: 0d 0h 0m 0s")
+local CurrentTime = os.time()
+local function UpdateFunction(TimeParameter)
+    local DaysPassed = math.floor(TimeParameter / 86400)
+    local RemainingSeconds = TimeParameter % 86400
+    local HoursPassed = math.floor(RemainingSeconds / 3600)
+    local RemainingMinutes = RemainingSeconds % 3600
+    local MinutesPassed = math.floor(RemainingMinutes / 60)
+    local SecondsPassed = RemainingMinutes % 60
+    return string.format("%dd %dh %dm %ds", DaysPassed, HoursPassed, MinutesPassed, SecondsPassed)
+end
+task.spawn(function()
+    while task.wait(1) do
+        TimeSpentLabel.Text = "Time Spent in Server: " .. UpdateFunction(os.time() - CurrentTime)
+    end
+end)
+local InitialValue = 0
+local RebirthsValue = game.Players.LocalPlayer.leaderstats.Rebirths.Value
+local RebirthsGainedLabel = infoTab1:AddLabel("Rebirths Gained in Server: 0")
+local function CalculateRebirthsFunction()
+    InitialValue = game.Players.LocalPlayer.leaderstats.Rebirths.Value - RebirthsValue
+    RebirthsGainedLabel.Text = "Rebirths Gained in Server: " .. InitialValue
+end
+task.spawn(function()
+    while task.wait(0.5) do
+        CalculateRebirthsFunction()
+    end
+end)
+infoTab1:AddLabel("\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144")
+infoTab1:AddLabel("PLAYER STATS").TextSize = 20
+infoTab1:AddLabel(" GAINED ").TextSize = 20
+local StatsTable = {
+    StrengthGainedLabel = infoTab1:AddLabel("Amount of strength gained in this server: 0"),
+    DurabilityGainedLabel = infoTab1:AddLabel("Amount of durability gained in this server: 0"),
+    AgilityGainedLabel = infoTab1:AddLabel("Amount of agility gained in this server: 0"),
+    KillsGainedLabel = infoTab1:AddLabel("Amount of kills gained in this server: 0"),
+    EvilKarmaGainedLabel = infoTab1:AddLabel("Amount of Evil Karma gained in this server: 0"),
+    GoodKarmaGainedLabel = infoTab1:AddLabel("Amount of Good Karma gained in this server: 0")
+};
+(function()
+    local LocalPlayer = game.Players.LocalPlayer
+    if LocalPlayer then
+        local Leaderstats = LocalPlayer:WaitForChild("leaderstats")
+        if Leaderstats then
+            local StrengthValue = Leaderstats:WaitForChild("Strength")
+            local DurabilityValue = LocalPlayer:WaitForChild("Durability")
+            local AgilityValue = LocalPlayer:WaitForChild("Agility")
+            local KillsValue = Leaderstats:WaitForChild("Kills")
+            local EvilKarmaValue = LocalPlayer:WaitForChild("evilKarma")
+            local GoodKarmaValue = LocalPlayer:WaitForChild("goodKarma")
+            local InitialStrength = StrengthValue.Value or 0
+            local InitialDurability = DurabilityValue.Value or 0
+            local InitialAgility = AgilityValue.Value or 0
+            local InitialKills = KillsValue.Value or 0
+            local InitialEvilKarma = EvilKarmaValue.Value or 0
+            local InitialGoodKarma = GoodKarmaValue.Value or 0
+            local function CalculateStatsFunction(PlayerParameter)
+                if PlayerParameter >= 1000000000 then
+                    return string.format("%.1fB", PlayerParameter / 1000000000)
+                elseif PlayerParameter >= 1000000 then
+                    return string.format("%.1fM", PlayerParameter / 1000000)
+                elseif PlayerParameter >= 1000 then
+                    return string.format("%.1fK", PlayerParameter / 1000)
+                else
+                    return tostring(PlayerParameter)
+                end
+            end
+            local function CalculateFunction()
+                local StrengthGained = StrengthValue.Value - InitialStrength
+                local DurabilityGained = DurabilityValue.Value - InitialDurability
+                local AgilityGained = AgilityValue.Value - InitialAgility
+                local KillsGained = KillsValue.Value - InitialKills
+                local EvilKarmaGained = EvilKarmaValue.Value - InitialEvilKarma
+                local GoodKarmaGained = GoodKarmaValue.Value - InitialGoodKarma
+                StatsTable.StrengthGainedLabel.Text = "Amount of strength gained in this server: " .. CalculateStatsFunction(StrengthGained)
+                StatsTable.DurabilityGainedLabel.Text = "Amount of durability gained in this server: " .. CalculateStatsFunction(DurabilityGained)
+                StatsTable.AgilityGainedLabel.Text = "Amount of agility gained in this server: " .. CalculateStatsFunction(AgilityGained)
+                StatsTable.KillsGainedLabel.Text = "Amount of kills gained in this server: " .. CalculateStatsFunction(KillsGained)
+                StatsTable.EvilKarmaGainedLabel.Text = "Amount of Evil Karma gained in this server: " .. CalculateStatsFunction(EvilKarmaGained)
+                StatsTable.GoodKarmaGainedLabel.Text = "Amount of Good Karma gained in this server: " .. CalculateStatsFunction(GoodKarmaGained)
+            end
+            StrengthValue.Changed:Connect(CalculateFunction)
+            DurabilityValue.Changed:Connect(CalculateFunction)
+            AgilityValue.Changed:Connect(CalculateFunction)
+            KillsValue.Changed:Connect(CalculateFunction)
+            EvilKarmaValue.Changed:Connect(CalculateFunction)
+            GoodKarmaValue.Changed:Connect(CalculateFunction)
+            CalculateFunction()
+        end
+    else
+        return
+    end
+end)()
+infoTab1:AddLabel("\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144")
+infoTab1:AddLabel(" CURRENT STATS ").TextSize = 20
+local function UpdateStatsFunction(StatsParameter)
+    if StatsParameter >= 1000000000000000 then
+        return tostring(math.floor(StatsParameter * 10 / 1000000000000000) / 10) .. "Qa"
+    elseif StatsParameter >= 1000000000000 then
+        return tostring(math.floor(StatsParameter * 10 / 1000000000000) / 10) .. "T"
+    elseif StatsParameter >= 1000000000 then
+        return tostring(math.floor(StatsParameter * 10 / 1000000000) / 10) .. "B"
+    elseif StatsParameter >= 1000000 then
+        return tostring(math.floor(StatsParameter * 10 / 1000000) / 10) .. "M"
+    elseif StatsParameter >= 1000 then
+        return tostring(math.floor(StatsParameter * 10 / 1000) / 10) .. "k"
+    else
+        return tostring(StatsParameter)
+    end
+end
+local function CalculateStatsFunction1(PlayerParameter1)
+    return UpdateStatsFunction(PlayerParameter1)
+end
+local function InfoTable(InfoParameter)
+    return not InfoParameter and "N/A" or string.format("%s / %d", UpdateStatsFunction(InfoParameter), InfoParameter)
+end
+local function StatsInfo(StatsParameter1)
+    return not StatsParameter1 and "N/A" or string.format("%s / %d", CalculateStatsFunction1(StatsParameter1), StatsParameter1)
+end
+local PlayerInfo = {
+    Player = infoTab1:AddLabel("Player: " .. game.Players.LocalPlayer.Name),
+    Rebirths = infoTab1:AddLabel("Rebirths: 0 / 0"),
+    Strength = infoTab1:AddLabel("Strength: 0 / 0"),
+    Durability = infoTab1:AddLabel("Durability: 0 / 0"),
+    Agility = infoTab1:AddLabel("Agility: 0 / 0"),
+    Kills = infoTab1:AddLabel("Kills: 0 / 0"),
+    EvilKarma = infoTab1:AddLabel("Evil Karma: 0 / 0"),
+    GoodKarma = infoTab1:AddLabel("Good Karma: 0 / 0")
+}
+local function GetLeaderstatsFunction(PlayerObject, ChildName)
+    if not PlayerObject then
+        return nil
+    end
+    local ChildObject = PlayerObject:FindFirstChild(ChildName)
+    local CurrentTick = tick()
+    while true do
+        ChildObject = ChildObject or (tick() - CurrentTick >= 3 or PlayerObject:FindFirstChild(ChildName))
+        if ChildObject then
+            break
+        end
+        task.wait(0.1)
+    end
+    return ChildObject
+end
+local function UpdatePlayerFunction(PlayerName)
+    local PlayerNameLower = tostring(PlayerName):lower()
+    if # PlayerNameLower == 0 then
+        return game.Players.LocalPlayer
+    end
+    local PlayerList, PlayerList1, PlayerList2 = ipairs(game.Players:GetPlayers())
+    while true do
+        local UnusedVariable
+        PlayerList2, UnusedVariable = PlayerList(PlayerList1, PlayerList2)
+        if PlayerList2 == nil then
+            break
+        end
+        if UnusedVariable.Name:lower() == PlayerNameLower then
+            return UnusedVariable
+        end
+    end
+    local PlayerList3, PlayerList4, PlayerList5 = ipairs(game.Players:GetPlayers())
+    while true do
+        local UnusedVariable1
+        PlayerList5, UnusedVariable1 = PlayerList3(PlayerList4, PlayerList5)
+        if PlayerList5 == nil then
+            break
+        end
+        if UnusedVariable1.DisplayName and UnusedVariable1.DisplayName:lower() == PlayerNameLower then
+            return UnusedVariable1
+        end
+    end
+    local PlayerList6, PlayerList7, PlayerList8 = ipairs(game.Players:GetPlayers())
+    while true do
+        local UnusedVariable2
+        PlayerList8, UnusedVariable2 = PlayerList6(PlayerList7, PlayerList8)
+        if PlayerList8 == nil then
+            break
+        end
+        if string.find(UnusedVariable2.Name:lower(), PlayerNameLower, 1, true) then
+            return UnusedVariable2
+        end
+    end
+    local PlayerList9, PlayerList10, PlayerList11 = ipairs(game.Players:GetPlayers())
+    while true do
+        local UnusedVariable3
+        PlayerList11, UnusedVariable3 = PlayerList9(PlayerList10, PlayerList11)
+        if PlayerList11 == nil then
+            break
+        end
+        if UnusedVariable3.DisplayName and string.find(UnusedVariable3.DisplayName:lower(), PlayerNameLower, 1, true) then
+            return UnusedVariable3
+        end
+    end
+    return nil
+end
+local function UpdatePlayerInfoFunction(PlayerObject1)
+    if PlayerObject1 then
+        PlayerInfo.Player.Text = "Player: " .. PlayerObject1.Name .. (PlayerObject1.DisplayName and (" (" .. PlayerObject1.DisplayName .. ")" or "") or "")
+        local LeaderstatsObject = PlayerObject1:FindFirstChild("leaderstats") or GetLeaderstatsFunction(PlayerObject1, "leaderstats")
+        local UnusedVariable4
+        if LeaderstatsObject then
+            UnusedVariable4 = LeaderstatsObject:FindFirstChild("Strength") or GetLeaderstatsFunction(LeaderstatsObject, "Strength")
+        else
+            UnusedVariable4 = LeaderstatsObject
+        end
+        local UnusedVariable5
+        if LeaderstatsObject then
+            UnusedVariable5 = LeaderstatsObject:FindFirstChild("Rebirths") or GetLeaderstatsFunction(LeaderstatsObject, "Rebirths")
+        else
+            UnusedVariable5 = LeaderstatsObject
+        end
+        if LeaderstatsObject then
+            LeaderstatsObject = LeaderstatsObject:FindFirstChild("Kills") or GetLeaderstatsFunction(LeaderstatsObject, "Kills")
+        end
+        local DurabilityObject = PlayerObject1:FindFirstChild("Durability") or GetLeaderstatsFunction(PlayerObject1, "Durability")
+        local AgilityObject = PlayerObject1:FindFirstChild("Agility") or GetLeaderstatsFunction(PlayerObject1, "Agility")
+        local EvilKarmaObject = PlayerObject1:FindFirstChild("evilKarma") or GetLeaderstatsFunction(PlayerObject1, "evilKarma")
+        local GoodKarmaObject = PlayerObject1:FindFirstChild("goodKarma") or GetLeaderstatsFunction(PlayerObject1, "goodKarma")
+        local RebirthsLabel = PlayerInfo.Rebirths
+        local RebirthsText = "Rebirths: "
+        local InfoLabel = InfoTable
+        if UnusedVariable5 then
+            UnusedVariable5 = UnusedVariable5.Value
+        end
+        RebirthsLabel.Text = RebirthsText .. InfoLabel(UnusedVariable5)
+        local StrengthLabel = PlayerInfo.Strength
+        local StrengthText = "Strength: "
+        local StatsLabel = StatsInfo
+        if UnusedVariable4 then
+            UnusedVariable4 = UnusedVariable4.Value
+        end
+        StrengthLabel.Text = StrengthText .. StatsLabel(UnusedVariable4)
+        local DurabilityLabel = PlayerInfo.Durability
+        local DurabilityText = "Durability: "
+        local StatsLabel1 = StatsInfo
+        if DurabilityObject then
+            DurabilityObject = DurabilityObject.Value
+        end
+        DurabilityLabel.Text = DurabilityText .. StatsLabel1(DurabilityObject)
+        local AgilityLabel = PlayerInfo.Agility
+        local AgilityText = "Agility: "
+        local StatsLabel2 = StatsInfo
+        if AgilityObject then
+            AgilityObject = AgilityObject.Value
+        end
+        AgilityLabel.Text = AgilityText .. StatsLabel2(AgilityObject)
+        local KillsLabel = PlayerInfo.Kills
+        local KillsText = "Kills: "
+        local InfoLabel1 = InfoTable
+        if LeaderstatsObject then
+            LeaderstatsObject = LeaderstatsObject.Value
+        end
+        KillsLabel.Text = KillsText .. InfoLabel1(LeaderstatsObject)
+        local EvilKarmaLabel = PlayerInfo.EvilKarma
+        local EvilKarmaValue = "Evil Karma: "
+        local Vu48Parameter = InfoTable
+        if EvilKarmaObject then
+            EvilKarmaObject = EvilKarmaObject.Value
+        end
+        EvilKarmaLabel.Text = EvilKarmaValue .. Vu48Parameter(EvilKarmaObject)
+        local GoodKarmaValue = PlayerInfo.GoodKarma
+        local GoodKarmaDisplay = "Good Karma: "
+        local Vu48Config = InfoTable
+        if GoodKarmaObject then
+            GoodKarmaObject = GoodKarmaObject.Value
+        end
+        GoodKarmaValue.Text = GoodKarmaDisplay .. Vu48Config(GoodKarmaObject)
+    else
+        local Vu51Iterator, Vu51Iterator1, Vu51Iterator2 = pairs(PlayerInfo)
+        while true do
+            local UnusedVariable
+            Vu51Iterator2, UnusedVariable = Vu51Iterator(Vu51Iterator1, Vu51Iterator2)
+            if Vu51Iterator2 == nil then
+                break
+            end
+            if Vu51Iterator2 ~= "Player" then
+                UnusedVariable.Text = Vu51Iterator2 .. ": N/A"
+            end
+        end
+        PlayerInfo.Player.Text = "Player: Not Found"
+    end
+end
+local ConfigTable = {}
+local function LocalFunction()
+    local ConfigIterator, ConfigIterator1, ConfigIterator2 = pairs(ConfigTable)
+    while true do
+        local UnusedConfig
+        ConfigIterator2, UnusedConfig = ConfigIterator(ConfigIterator1, ConfigIterator2)
+        if ConfigIterator2 == nil then
+            break
+        end
+        if UnusedConfig then
+            pcall(function()
+                UnusedConfig:Disconnect()
+            end)
+        end
+    end
+    ConfigTable = {}
+end
+local function LocalFunction1(PlayerParameter)
+    LocalFunction()
+    if PlayerParameter then
+        local function LocalFunctionParameter(FunctionParameter)
+            if FunctionParameter then
+                table.insert(ConfigTable, FunctionParameter.Changed:Connect(function()
+                    UpdatePlayerInfoFunction(PlayerParameter)
+                end))
+            end
+        end
+        local LeaderstatsValue = PlayerParameter:FindFirstChild("leaderstats") or GetLeaderstatsFunction(PlayerParameter, "leaderstats")
+        if LeaderstatsValue then
+            LocalFunctionParameter(LeaderstatsValue:FindFirstChild("Strength") or GetLeaderstatsFunction(LeaderstatsValue, "Strength"))
+            LocalFunctionParameter(LeaderstatsValue:FindFirstChild("Rebirths") or GetLeaderstatsFunction(LeaderstatsValue, "Rebirths"))
+            LocalFunctionParameter(LeaderstatsValue:FindFirstChild("Kills") or GetLeaderstatsFunction(LeaderstatsValue, "Kills"))
+        end
+        LocalFunctionParameter(PlayerParameter:FindFirstChild("Durability") or GetLeaderstatsFunction(PlayerParameter, "Durability"))
+        LocalFunctionParameter(PlayerParameter:FindFirstChild("Agility") or GetLeaderstatsFunction(PlayerParameter, "Agility"))
+        LocalFunctionParameter(PlayerParameter:FindFirstChild("evilKarma") or GetLeaderstatsFunction(PlayerParameter, "evilKarma"))
+        LocalFunctionParameter(PlayerParameter:FindFirstChild("goodKarma") or GetLeaderstatsFunction(PlayerParameter, "goodKarma"))
+    end
+end
+local UnusedValue = nil
+infoTab1:AddTextBox(" USERNAME or DISPLAY NAME ", function(FunctionParameter1)
+    local Vu75Result = UpdatePlayerFunction(FunctionParameter1)
+    if Vu75Result ~= UnusedValue then
+        UnusedValue = Vu75Result
+        UpdatePlayerInfoFunction(Vu75Result)
+        LocalFunction1(Vu75Result)
+    end
+end, {
+    clear = false,
+    placeholder = "Type username or display name..."
+})
+infoTab1:AddLabel("EX  username -mohaop just type mo / display name - ZX_BLA BLA just type ZX")
+infoTab1:AddLabel("\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144\226\149\144")
+UnusedValue = game.Players.LocalPlayer
+UpdatePlayerInfoFunction(UnusedValue)
+LocalFunction1(UnusedValue)
+Main = MainWindow:AddTab("MAIN")
