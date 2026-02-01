@@ -57,4 +57,5 @@ local function removePortals()
 end
 removePortals()
 
-local v2 = v1:AddTab("Fast Rebirth")
+infoTab1 = MainWindow:AddTab(" STATS ")
+local v2 = window:AddTab("Main")
