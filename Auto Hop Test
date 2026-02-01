@@ -57,5 +57,6 @@ local function removePortals()
 end
 removePortals()
 
+local v2 = v1:AddTab("INFO1")
 infoTab1 = MainWindow:AddTab(" STATS ")
 local v2 = window:AddTab("Main")
