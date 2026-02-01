@@ -1,4 +1,3 @@
-
 local v1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/Moha-space/elerium-v2-ui-library/refs/heads/main/Library", true))():AddWindow("                                   RK HUB | PUBLIC ", {
     main_color = Color3.fromRGB(170, 150, 85),
     min_size = Vector2.new(615, 685),
@@ -12,7 +11,7 @@ v2:AddLabel("OWNER OF THIS SCRIPT IS xXD3ATHK1NGXx & Angel ")
 v2:AddLabel("Script Made By xXD3ATHK1NGXx & Angel |", {
     TextColor3 = Color3.fromRGB(255, 255, 255)
 })
-local vu3 = v2:AddLabel("                                               MOHA || TEJAZ")
+local vu3 = v2:AddLabel("                                               xXD3ATHK1NGXx || Angel")
 task.spawn(function()
     local v4 = 0
     while true do
@@ -27,4 +26,103 @@ v2:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
 v2:AddButton("Copy Discord Invite", function()
     setclipboard("https://discord.gg/7VMvFvdGSF")
 end)
-local StatsTab = window:AddTab("Stats")
+local antiAFKConnection
+local function setupAntiAFK()
+    if antiAFKConnection then
+        antiAFKConnection:Disconnect()
+    end
+
+    antiAFKConnection = Player.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end
+setupAntiAFK()
+
+local function removePortals()
+    for _, portal in pairs(game:GetDescendants()) do
+        if portal.Name == "RobloxForwardPortals" then
+            portal:Destroy()
+        end
+    end
+    if _G.AdRemovalConnection then
+        _G.AdRemovalConnection:Disconnect()
+    end
+    
+    _G.AdRemovalConnection = game.DescendantAdded:Connect(function(descendant)
+        if descendant.Name == "RobloxForwardPortals" then
+            descendant:Destroy()
+        end
+    end)
+end
+removePortals()
+
+local MainTab = window:AddTab("Main")
+
+MainTab:AddLabel("Settings:").TextSize = 22
+
+local changeSpeedSizeRemote = ReplicatedStorage.rEvents.changeSpeedSizeRemote
+
+local userSize = 2
+local sizeActive = false
+
+MainTab:AddTextBox("Size", function(text)
+	text = string.gsub(text, "%s+", "")
+	local value = tonumber(text)
+	if value and value > 0 then
+		userSize = value
+	end
+end)
+
+local setsizeswitch = MainTab:AddSwitch("Set Size", function(bool)
+	sizeActive = bool
+end)
+
+setsizeswitch:Set(false)
+
+task.spawn(function()
+	while true do
+		if sizeActive then
+			local character = Players.LocalPlayer.Character
+			if character then
+				local humanoid = character:FindFirstChildOfClass("Humanoid")
+				if humanoid then
+					changeSpeedSizeRemote:InvokeServer("changeSize", userSize)
+				end
+			end
+		end
+		task.wait(0.15)
+	end
+end)
+
+local userSpeed = 120
+local speedActive = false
+
+MainTab:AddTextBox("Speed", function(text)
+	text = string.gsub(text, "%s+", "")
+	local value = tonumber(text)
+	if value and value > 0 then
+		userSpeed = value
+	end
+end)
+
+local setspeedswitch = MainTab:AddSwitch("Set Speed", function(bool)
+	speedActive = bool
+end)
+
+setspeedswitch:Set(false)
+
+task.spawn(function()
+	while true do
+		if speedActive then
+			local character = Players.LocalPlayer.Character
+			if character then
+				local humanoid = character:FindFirstChildOfClass("Humanoid")
+				if humanoid then
+					changeSpeedSizeRemote:InvokeServer("changeSpeed", userSpeed)
+				end
+			end
+		end
+		task.wait(0.15)
+	end
+end)
