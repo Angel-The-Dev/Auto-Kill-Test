@@ -29,61 +29,6 @@ InfoTab:AddButton("Copy Discord Invite", function()
 end)
 FastTab = MainWindow:AddTab("Farming")
 
-local Players = game:GetService("Players")
-local localPlayer = Players.LocalPlayer
-local HttpService = game:GetService("HttpService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local VirtualUser = game:GetService("VirtualUser")
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local muscleEvent = Player:WaitForChild("muscleEvent")
-local display = Player.DisplayName
-
-
-local library = loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/1476b5a9c6b4b22f5f630c322036ec518db4d97424996e9dcf4563c0c2abe3a/download"))()loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/AngelPriv", true))()
-
-
-local window = library:AddWindow("Angel's Priv Script", {
-	title_bar = {Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0)}, -- Title Bar Gradient (1-3 Colors)
-	title_bar_transparency = 1, -- Title Bar transparency (0-1 with 1 being fully transparent)
-	background = {Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0)}, -- (Background Gradient 1-3 Colors)
-	background_transparency = 0.1, -- Background transparency (0-1 with 1 being fully transparent)
-	main_color = Color3.fromRGB(255, 255, 255), -- Main Color for some Elements like Particles
-	min_size = Vector2.new(450, 450), -- Size of the Window (vertically, horizontally)
-	can_resize = true -- resizable (PC exclusive)
-})
-
-local antiAFKConnection
-local function setupAntiAFK()
-    if antiAFKConnection then
-        antiAFKConnection:Disconnect()
-    end
-
-    antiAFKConnection = Player.Idled:Connect(function()
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton2(Vector2.new())
-    end)
-end
-setupAntiAFK()
-
-local function removePortals()
-    for _, portal in pairs(game:GetDescendants()) do
-        if portal.Name == "RobloxForwardPortals" then
-            portal:Destroy()
-        end
-    end
-    if _G.AdRemovalConnection then
-        _G.AdRemovalConnection:Disconnect()
-    end
-    
-    _G.AdRemovalConnection = game.DescendantAdded:Connect(function(descendant)
-        if descendant.Name == "RobloxForwardPortals" then
-            descendant:Destroy()
-        end
-    end)
-end
-removePortals()
-
 local MainTab = window:AddTab("Main")
 local KillingTab = window:AddTab("Killing")
 local SpecsTab = window:AddTab("Specs")
