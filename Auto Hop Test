@@ -1,33 +1,94 @@
+local Library = loadstring(game:HttpGetAsync("https://github.com/ActualMasterOogway/Fluent-Renewed/releases/latest/download/Fluent. Luau"))()
+local SaveManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/SaveManager.luau"))()
+local InterfaceManager = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/ActualMasterOogway/Fluent-Renewed/master/Addons/InterfaceManager.luau"))()
 
-local MainWindow = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/cracked/refs/heads/main/scp/libcreck.luau", true))():AddWindow("                                   RK SCRIPT PAID | PUBLIC ", {
-    main_color = Color3.fromRGB(170, 150, 85),
-    min_size = Vector2.new(600, 400),
-    can_resize = false,
-    scrollable = true
+local player = game.Players.LocalPlayer
+local displayName = player.DisplayName
+
+local Window = Library:CreateWindow{
+	Title = "Script Loader",
+	SubTitle = displayName .. " ",
+	TabWidth = 125,
+	Size = UDim2.fromOffset(830, 525),
+	Resize = true,
+	MinSize = Vector2.new(470, 380),
+	Acrylic = true,
+	Theme = "VSC Dark High Contrast",
+	MinimizeKey = Enum.KeyCode.RightControl
+}
+
+local Tabs = {
+	ML = Window:CreateTab{
+		Title = "Muscle Legends",
+		Icon = "phosphor-sliders-bold"
+	}
+}
+Tabs.ML:CreateParagraph("ML", {
+	Title = "Muscle Legends",
+	Content = "pick any below!!",
+	TitleAlignment = "Left",
+	ContentAlignment = Enum.TextXAlignment.Left
 })
-local InfoTab = MainWindow:AddTab("INFO")
-InfoTab:AddLabel("\227\128\142 INFO About The Script")
-InfoTab:AddLabel("WELCOME TO RK HUB")
-InfoTab:AddLabel("\227\128\142 OWNER OF THIS SCRIPT xXD3ATHKINGXx & Angel")
-InfoTab:AddLabel("Script Made By |", {
-    TextColor3 = Color3.fromRGB(255, 255, 255)
+
+Tabs.ML:CreateButton{
+	Title = "Execute Main Script",
+	Callback = function()
+
+
+local Players = game:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local HttpService = game:GetService("HttpService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VirtualUser = game:GetService("VirtualUser")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local muscleEvent = Player:WaitForChild("muscleEvent")
+local display = Player.DisplayName
+
+
+local library = loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/1476b5a9c6b4b22f5f630c322036ec518db4d97424996e9dcf4563c0c2abe3a/download"))()loadstring(game:HttpGet("https://raw.githubusercontent.com/0o0o0o0o0o0o0o0o0o0o0o0o/0o/refs/heads/main/AngelPriv", true))()
+
+
+local window = library:AddWindow("Angel's Priv Script", {
+	title_bar = {Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0)}, -- Title Bar Gradient (1-3 Colors)
+	title_bar_transparency = 1, -- Title Bar transparency (0-1 with 1 being fully transparent)
+	background = {Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0)}, -- (Background Gradient 1-3 Colors)
+	background_transparency = 0.1, -- Background transparency (0-1 with 1 being fully transparent)
+	main_color = Color3.fromRGB(255, 255, 255), -- Main Color for some Elements like Particles
+	min_size = Vector2.new(450, 450), -- Size of the Window (vertically, horizontally)
+	can_resize = true -- resizable (PC exclusive)
 })
-local OwnerLabel = InfoTab:AddLabel("xXD3ATHKINGXx & Angel")
-task.spawn(function()
-    local TimerValue = 0
-    while true do
-        TimerValue = TimerValue + 0.01
-        OwnerLabel.TextColor3 = Color3.fromHSV(tick() * 0.22 % 1, 0.8, 1)
-        task.wait(0.02)
+
+local antiAFKConnection
+local function setupAntiAFK()
+    if antiAFKConnection then
+        antiAFKConnection:Disconnect()
     end
-end)
-InfoTab:AddLabel("Thank you for using our script")
-InfoTab:AddLabel("Invite Link")
-InfoTab:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
-InfoTab:AddButton("Copy Discord Invite", function()
-    setclipboard("https://discord.gg/r3q2fvVZHB")
-end)
-FastTab = MainWindow:AddTab("Farming")
+
+    antiAFKConnection = Player.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end
+setupAntiAFK()
+
+local function removePortals()
+    for _, portal in pairs(game:GetDescendants()) do
+        if portal.Name == "RobloxForwardPortals" then
+            portal:Destroy()
+        end
+    end
+    if _G.AdRemovalConnection then
+        _G.AdRemovalConnection:Disconnect()
+    end
+    
+    _G.AdRemovalConnection = game.DescendantAdded:Connect(function(descendant)
+        if descendant.Name == "RobloxForwardPortals" then
+            descendant:Destroy()
+        end
+    end)
+end
+removePortals()
 
 local MainTab = window:AddTab("Main")
 local KillingTab = window:AddTab("Killing")
