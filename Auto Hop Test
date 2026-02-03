@@ -21,24 +21,22 @@ InfoTab:AddButton("Copy Discord Invite", function()
 end)
 
 -- FARMING TAB
-local FastTab = MainWindow:AddTab("Farming")
+local FarmTab = MainWindow:AddTab("Farming")
 
--- FAST REBIRTH TAB
-local RebirthTab = MainWindow:AddTab("FastRebirth")
-
-RebirthTab:AddButton("Quick Rebirth", function()
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Players = game:GetService("Players")
-    local VirtualInputManager = game:GetService("VirtualInputManager")
-    local lp = Players.LocalPlayer
+FarmTab:AddButton("Quick Rebirth", function()
+    -- Start of the Rebirth Logic
+    local a = game:GetService("ReplicatedStorage")
+    local b = game:GetService("Players")
+    local vInput = game:GetService("VirtualInputManager")
+    local c = b.LocalPlayer
 
     -- Function to unequip all pets
-    local function unequipAll()
-        local pets = lp:WaitForChild("petsFolder")
-        for _, folder in pairs(pets:GetChildren()) do 
-            if folder:IsA("Folder") then 
-                for _, pet in pairs(folder:GetChildren()) do 
-                    ReplicatedStorage.rEvents.equipPetEvent:FireServer("unequipPet", pet)
+    local d = function()
+        local f = c:WaitForChild("petsFolder")
+        for _, h in pairs(f:GetChildren()) do 
+            if h:IsA("Folder") then 
+                for _, j in pairs(h:GetChildren()) do 
+                    a.rEvents.equipPetEvent:FireServer("unequipPet", j)
                 end 
             end 
         end
@@ -46,14 +44,14 @@ RebirthTab:AddButton("Quick Rebirth", function()
     end
 
     -- Function to equip a specific pet
-    local function equipPet(name)
-        unequipAll()
-        task.wait(.1)
-        local unique = lp.petsFolder:FindFirstChild("Unique")
+    local k = function(l)
+        d()
+        task.wait(.01)
+        local unique = c.petsFolder:FindFirstChild("Unique")
         if unique then
-            for _, pet in pairs(unique:GetChildren()) do 
-                if pet.Name == name then 
-                    ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
+            for _, n in pairs(unique:GetChildren()) do 
+                if n.Name == l then 
+                    a.rEvents.equipPetEvent:FireServer("equipPet", n)
                     break
                 end 
             end 
@@ -61,61 +59,66 @@ RebirthTab:AddButton("Quick Rebirth", function()
     end
 
     -- Find a machine in workspace
-    local function getMachine(mName)
-        local machine = workspace:FindFirstChild("machinesFolder") and workspace.machinesFolder:FindFirstChild(mName)
-        if not machine then 
-            for _, v in pairs(workspace:GetChildren()) do 
-                if v:IsA("Folder") and v.Name:find("machines") then 
-                    machine = v:FindFirstChild(mName)
-                    if machine then break end 
+    local o = function(p)
+        local q = workspace:FindFirstChild("machinesFolder") and workspace.machinesFolder:FindFirstChild(p)
+        if not q then 
+            for _, s in pairs(workspace:GetChildren()) do 
+                if s:IsA("Folder") and s.Name:lower():find("machines") then 
+                    q = s:FindFirstChild(p)
+                    if q then break end 
                 end 
             end 
         end
-        return machine 
+        return q 
+    end
+
+    -- Simulate pressing 'E'
+    local t = function()
+        vInput:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+        task.wait(.1)
+        vInput:SendKeyEvent(false, Enum.KeyCode.E, false, game)
     end
 
     -- Main Auto-Rebirth Loop
     task.spawn(function()
-        print("Quick Rebirth Started!")
+        print("RK HUB: Auto-Rebirth Activated")
         while true do 
-            local currentRebirths = lp.leaderstats.Rebirths.Value
-            local targetStrength = 10000 + (5000 * currentRebirths)
+            local v = c.leaderstats.Rebirths.Value
+            local w = 10000 + (5000 * v)
             
-            -- Ultimate scaling
-            if lp:FindFirstChild("ultimatesFolder") and lp.ultimatesFolder:FindFirstChild("Golden Rebirth") then 
-                local x = lp.ultimatesFolder["Golden Rebirth"].Value
-                targetStrength = math.floor(targetStrength * (1 - (x * 0.1)))
+            if c:FindFirstChild("ultimatesFolder") and c.ultimatesFolder:FindFirstChild("Golden Rebirth") then 
+                local x = c.ultimatesFolder["Golden Rebirth"].Value
+                w = math.floor(w * (1 - (x * 0.1)))
             end
             
-            equipPet("Swift Samurai")
+            k("Swift Samurai")
             
             -- Training Loop
-            while lp.leaderstats.Strength.Value < targetStrength do 
-                for i = 1, 10 do 
-                    lp.muscleEvent:FireServer("rep")
+            while c.leaderstats.Strength.Value < w do 
+                for y = 1, 10 do 
+                    c.muscleEvent:FireServer("rep")
                 end
                 task.wait(0.1) -- Prevents crashing
             end
             
-            equipPet("Tribal Overlord")
+            k("Tribal Overlord")
             
-            -- Use Machine (Jungle Bar Lift)
-            local lift = getMachine("Jungle Bar Lift")
-            if lift and lift:FindFirstChild("interactSeat") then 
-                lp.Character:PivotTo(lift.interactSeat.CFrame * CFrame.new(0, 3, 0))
+            -- Use Machine
+            local z = o("Jungle Bar Lift")
+            if z and z:FindFirstChild("interactSeat") then 
+                c.Character:PivotTo(z.interactSeat.CFrame * CFrame.new(0, 3, 0))
                 repeat 
                     task.wait(.2)
-                    VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-                    task.wait(.1)
-                    VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-                until lp.Character.Humanoid.Sit or lp.leaderstats.Rebirths.Value > currentRebirths
+                    t()
+                until c.Character.Humanoid.Sit or c.leaderstats.Rebirths.Value > v
             end
             
-            -- Rebirth Request
+            -- Rebirth
+            local A = c.leaderstats.Rebirths.Value
             repeat 
-                ReplicatedStorage.rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+                a.rEvents.rebirthRemote:InvokeServer("rebirthRequest")
                 task.wait(.5)
-            until lp.leaderstats.Rebirths.Value > currentRebirths
+            until c.leaderstats.Rebirths.Value > A
             
             task.wait(1)
         end 
