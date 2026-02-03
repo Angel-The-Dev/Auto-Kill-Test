@@ -1,129 +1,112 @@
-local MainWindow = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/cracked/refs/heads/main/scp/libcreck.luau", true))():AddWindow("                                   RK SCRIPT PAID | PUBLIC ", {
-    main_color = Color3.fromRGB(170, 150, 85),
-    min_size = Vector2.new(600, 400),
-    can_resize = false,
-    scrollable = true
+-- RK Hub: Key System & Gold Cracked UI
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com')))()
+
+-- 1. THE KEY SYSTEM (Red Overlay Window)
+local KeyWindow = OrionLib:MakeWindow({
+    Name = "RK Hub | Key System", 
+    HidePremium = true, 
+    SaveConfig = false, 
+    IntroEnabled = false
 })
 
-local InfoTab = MainWindow:AddTab("INFO")
-InfoTab:AddLabel("📜 INFO About The Script")
-InfoTab:AddLabel("WELCOME TO RK HUB")
-InfoTab:AddLabel("👑 OWNER OF THIS SCRIPT xXD3ATHKINGXx & Angel")
-InfoTab:AddLabel("Script Made By |", {
-    TextColor3 = Color3.fromRGB(255, 255, 255)
+local KeyTab = KeyWindow:MakeTab({
+    Name = "Key Entry",
+    Icon = "rbxassetid://4483362458",
+    PremiumOnly = false
 })
-local OwnerLabel = InfoTab:AddLabel("xXD3ATHKINGXx & Angel")
 
--- Rainbow effect for Owner Label
-task.spawn(function()
-    while true do
-        OwnerLabel.TextColor3 = Color3.fromHSV(tick() * 0.22 % 1, 0.8, 1)
-        task.wait(0.02)
+KeyTab:AddLabel("Welcome To RK Hub")
+
+KeyTab:AddTextbox({
+    Name = "Enter Key Here",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(Value)
+        if Value == "RKONTOP" then
+            OrionLib:MakeNotification({
+                Name = "Access Granted!",
+                Content = "Opening RK Script Paid...",
+                Image = "rbxassetid://4483362458",
+                Time = 3
+            })
+            task.wait(1)
+            KeyWindow:Destroy() -- Close Key System
+            LoadMainCrackedUI() -- Start Main Script
+        else
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Wrong Key! Please try again.",
+                Image = "rbxassetid://4483362458",
+                Time = 3
+            })
+        end
+    end	  
+})
+
+KeyTab:AddButton({
+    Name = "Click Here To Get Key",
+    Callback = function()
+        setclipboard("https://discord.gg/kjHjjtz7qv")
+        OrionLib:MakeNotification({
+            Name = "Clipboard",
+            Content = "Discord link copied to clipboard!",
+            Time = 2
+        })
     end
-end)
+})
 
-InfoTab:AddLabel("Thank you for using our script")
-InfoTab:AddLabel("Invite Link")
-InfoTab:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
-InfoTab:AddButton("Copy Discord Invite", function()
-    setclipboard("https://discord.gg")
-end)
+-- 2. THE MAIN GOLD CRACKED UI
+function LoadMainCrackedUI()
+    local MainWindow = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/cracked/refs/heads/main/scp/libcreck.luau", true))():AddWindow("                                   RK SCRIPT PAID | PUBLIC ", {
+        main_color = Color3.fromRGB(170, 150, 85),
+        min_size = Vector2.new(600, 400),
+        can_resize = false,
+        scrollable = true
+    })
 
-local FastTab = MainWindow:AddTab("Farming") -- Added 'local'
+    -- INFO TAB
+    local InfoTab = MainWindow:AddTab("INFO")
+    InfoTab:AddLabel("📜 INFO About The Script")
+    InfoTab:AddLabel("WELCOME TO RK HUB")
+    InfoTab:AddLabel("👑 OWNER OF THIS SCRIPT xXD3ATHKINGXx & Angel")
+    InfoTab:AddLabel("Script Made By |", {
+        TextColor3 = Color3.fromRGB(255, 255, 255)
+    })
+    
+    local OwnerLabel = InfoTab:AddLabel("xXD3ATHKINGXx & Angel")
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local VirtualInputManager = game:GetService("VirtualInputManager")
-local player = Players.LocalPlayer
-
--- Function to unequip all pets
-local function unequipAll()
-    local petsFolder = player:WaitForChild("petsFolder")
-    for _, folder in pairs(petsFolder:GetChildren()) do
-        if folder:IsA("Folder") then
-            for _, pet in pairs(folder:GetChildren()) do
-                ReplicatedStorage.rEvents.equipPetEvent:FireServer("unequipPet", pet)
-            end
+    -- Rainbow effect for Owner Label
+    task.spawn(function()
+        while true do
+            OwnerLabel.TextColor3 = Color3.fromHSV(tick() * 0.22 % 1, 0.8, 1)
+            task.wait(0.02)
         end
-    end
-    task.wait(0.1)
-end
+    end)
 
--- Function to equip a specific pet by name
-local function equipPet(petName)
-    unequipAll()
-    task.wait(0.01)
-    local uniquePets = player.petsFolder:WaitForChild("Unique")
-    for _, pet in pairs(uniquePets:GetChildren()) do
-        if pet.Name == petName then
-            ReplicatedStorage.rEvents.equipPetEvent:FireServer("equipPet", pet)
-        end
-    end
-end
+    InfoTab:AddLabel("Thank you for using our script")
+    InfoTab:AddLabel("Invite Link")
+    InfoTab:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
+    InfoTab:AddButton("Copy Discord Invite", function()
+        setclipboard("https://discord.gg/kjHjjtz7qv")
+    end)
 
--- Find a machine by name in workspace
-local function getMachine(name)
-    local machine = workspace:WaitForChild("machinesFolder"):FindFirstChild(name)
-    if not machine then
-        for _, folder in pairs(workspace:GetChildren()) do
-            if folder:IsA("Folder") and folder.Name:find("machines") then
-                machine = folder:FindFirstChild(name)
-                if machine then break end
-            end
-        end
-    end
-    return machine
-end
-
--- Main Farming Loop
-task.spawn(function()
-    while true do
-        local rebirths = player.leaderstats.Rebirths.Value
-        local targetStrength = 10000 + (5000 * rebirths) 
-        
-        -- Apply Golden Rebirth reduction
-        if player:WaitForChild("ultimatesFolder"):FindFirstChild("Golden Rebirth") then
-            local x = player.ultimatesFolder["Golden Rebirth"].Value
-            targetStrength = math.floor(targetStrength * (1 - (x * 0.1)))
-        end
-
-        unequipAll()
-        task.wait(0.1)
-        equipPet("Swift Samurai")
-
-        -- Training loop
-        while player.leaderstats.Strength.Value < targetStrength do
-            for i = 1, 10 do
-                player.muscleEvent:FireServer("rep")
-            end
-            task.wait()
-        end
-
-        unequipAll()
-        task.wait(0.1)
-        equipPet("Tribal Overlord")
-
-        -- Interaction logic for machines
-        local machine = getMachine("Jungle Bar Lift")
-        if machine and machine:FindFirstChild("interactSeat") then
-            player.Character.HumanoidRootPart.CFrame = machine.interactSeat.CFrame * CFrame.new(0, 3, 0)
-            
-            repeat 
-                task.wait(0.1)
-                -- VirtualInputManager works in most executors to simulate 'E'
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-                task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-            until player.Character.Humanoid.Sit
-        end
-
-        -- Rebirth logic
-        local currentRebirths = player.leaderstats.Rebirths.Value
-        repeat 
-            ReplicatedStorage.rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+    -- FARMING TAB
+    local FastTab = MainWindow:AddTab("Farming")
+    
+    FastTab:AddToggle("Auto Lift", function(state)
+        _G.AutoLift = state
+        while _G.AutoLift do
+            local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+            if tool then tool:Activate() end
             task.wait(0.1)
-        until player.leaderstats.Rebirths.Value > currentRebirths
-        
-        task.wait()
-    end
-end)
+        end
+    end)
+
+    -- Placeholder tabs for your other categories
+    local RebirthTab = MainWindow:AddTab("Fast Rebirth")
+    local StrengthTab = MainWindow:AddTab("Fast Strength")
+    local MiscTab = MainWindow:AddTab("Misc")
+    local CreditsTab = MainWindow:AddTab("Credits")
+end
+
+OrionLib:Init()
