@@ -1,112 +1,35 @@
--- RK Hub: Key System & Gold Cracked UI
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com')))()
 
--- 1. THE KEY SYSTEM (Red Overlay Window)
-local KeyWindow = OrionLib:MakeWindow({
-    Name = "RK Hub | Key System", 
-    HidePremium = true, 
-    SaveConfig = false, 
-    IntroEnabled = false
+local MainWindow = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/cracked/refs/heads/main/scp/libcreck.luau", true))():AddWindow("                                   RK SCRIPT PAID | PUBLIC ", {
+    main_color = Color3.fromRGB(170, 150, 85),
+    min_size = Vector2.new(600, 400),
+    can_resize = false,
+    scrollable = true
 })
-
-local KeyTab = KeyWindow:MakeTab({
-    Name = "Key Entry",
-    Icon = "rbxassetid://4483362458",
-    PremiumOnly = false
+local InfoTab = MainWindow:AddTab("INFO")
+InfoTab:AddLabel("\227\128\142 INFO About The Script")
+InfoTab:AddLabel("WELCOME TO RK HUB")
+InfoTab:AddLabel("\227\128\142 OWNER OF THIS SCRIPT xXD3ATHKINGXx & Angel")
+InfoTab:AddLabel("Script Made By |", {
+    TextColor3 = Color3.fromRGB(255, 255, 255)
 })
-
-KeyTab:AddLabel("Welcome To RK Hub")
-
-KeyTab:AddTextbox({
-    Name = "Enter Key Here",
-    Default = "",
-    TextDisappear = true,
-    Callback = function(Value)
-        if Value == "RKONTOP" then
-            OrionLib:MakeNotification({
-                Name = "Access Granted!",
-                Content = "Opening RK Script Paid...",
-                Image = "rbxassetid://4483362458",
-                Time = 3
-            })
-            task.wait(1)
-            KeyWindow:Destroy() -- Close Key System
-            LoadMainCrackedUI() -- Start Main Script
-        else
-            OrionLib:MakeNotification({
-                Name = "Error",
-                Content = "Wrong Key! Please try again.",
-                Image = "rbxassetid://4483362458",
-                Time = 3
-            })
-        end
-    end	  
-})
-
-KeyTab:AddButton({
-    Name = "Click Here To Get Key",
-    Callback = function()
-        setclipboard("https://discord.gg/kjHjjtz7qv")
-        OrionLib:MakeNotification({
-            Name = "Clipboard",
-            Content = "Discord link copied to clipboard!",
-            Time = 2
-        })
+local OwnerLabel = InfoTab:AddLabel("xXD3ATHKINGXx & Angel")
+task.spawn(function()
+    local TimerValue = 0
+    while true do
+        TimerValue = TimerValue + 0.01
+        OwnerLabel.TextColor3 = Color3.fromHSV(tick() * 0.22 % 1, 0.8, 1)
+        task.wait(0.02)
     end
-})
+end)
+InfoTab:AddLabel("Thank you for using our script")
+InfoTab:AddLabel("Invite Link")
+InfoTab:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
+InfoTab:AddButton("Copy Discord Invite", function()
+    setclipboard("https://discord.gg/r3q2fvVZHB")
+end)
+FastTab = MainWindow:AddTab("Main")
 
--- 2. THE MAIN GOLD CRACKED UI
-function LoadMainCrackedUI()
-    local MainWindow = loadstring(game:HttpGet("https://raw.githubusercontent.com/lkjhg969/cracked/refs/heads/main/scp/libcreck.luau", true))():AddWindow("                                   RK SCRIPT PAID | PUBLIC ", {
-        main_color = Color3.fromRGB(170, 150, 85),
-        min_size = Vector2.new(600, 400),
-        can_resize = false,
-        scrollable = true
-    })
 
-    -- INFO TAB
-    local InfoTab = MainWindow:AddTab("INFO")
-    InfoTab:AddLabel("📜 INFO About The Script")
-    InfoTab:AddLabel("WELCOME TO RK HUB")
-    InfoTab:AddLabel("👑 OWNER OF THIS SCRIPT xXD3ATHKINGXx & Angel")
-    InfoTab:AddLabel("Script Made By |", {
-        TextColor3 = Color3.fromRGB(255, 255, 255)
-    })
-    
-    local OwnerLabel = InfoTab:AddLabel("xXD3ATHKINGXx & Angel")
 
-    -- Rainbow effect for Owner Label
-    task.spawn(function()
-        while true do
-            OwnerLabel.TextColor3 = Color3.fromHSV(tick() * 0.22 % 1, 0.8, 1)
-            task.wait(0.02)
-        end
-    end)
 
-    InfoTab:AddLabel("Thank you for using our script")
-    InfoTab:AddLabel("Invite Link")
-    InfoTab:AddLabel("  INVITE LINK TO OUR DISCORD SERVER")
-    InfoTab:AddButton("Copy Discord Invite", function()
-        setclipboard("https://discord.gg/kjHjjtz7qv")
-    end)
-
-    -- FARMING TAB
-    local FastTab = MainWindow:AddTab("Farming")
-    
-    FastTab:AddToggle("Auto Lift", function(state)
-        _G.AutoLift = state
-        while _G.AutoLift do
-            local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
-            if tool then tool:Activate() end
-            task.wait(0.1)
-        end
-    end)
-
-    -- Placeholder tabs for your other categories
-    local RebirthTab = MainWindow:AddTab("Fast Rebirth")
-    local StrengthTab = MainWindow:AddTab("Fast Strength")
-    local MiscTab = MainWindow:AddTab("Misc")
-    local CreditsTab = MainWindow:AddTab("Credits")
-end
-
-OrionLib:Init()
+FastTab1 = MainWindow:AddTab("Farming")
